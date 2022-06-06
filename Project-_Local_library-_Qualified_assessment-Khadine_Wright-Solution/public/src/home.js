@@ -41,17 +41,20 @@ function getMostCommonGenres(books) {
 }
 
 function getMostPopularBooks(books) {
-  let popularBooks = [];
-  for(let i = 0; i < books.length; i++) {
-    let book = books[i];
-    let countOfAccounts = 0;
-    if(book.borrows) {
-      countOfAccounts = book.borrows.length;
-      popularBooks.push({ name: book.title, count: countOfAccounts});
-    }
-  }
-  const sortList = popularBooks.sort((bookA, bookB) => bookA.count < bookB.count ? 1 : -1);
-  return sortList.slice(0, 5);
+    //Using filter method to return array of books that have a borrowed length to skip iteration through 0
+    let popularBooks = books.filter(book => book.borrows.length > 0);
+    let popularList = [];
+      for(let i = 0; i < popularBooks.length; i++) {
+        let popBook = popularBooks[i];
+        let countOfAccounts = 0;
+        if(popBook.borrows) {
+          countOfAccounts = popBook.borrows.length;
+          popularList.push({ name: popBook.title, count: countOfAccounts});
+        }
+      }
+      const sortList = popularList.sort((bookA, bookB) => bookA.count < bookB.count ? 1 : -1);
+      return sortList.slice(0, 5);
+  
 }
 
 function getMostPopularAuthors(books, authors) {
